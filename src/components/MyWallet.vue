@@ -3,7 +3,7 @@
 
         <v-data-table
             :headers="headers"
-            :items="desserts"
+            :items="assets"
             sort-by="calories"
             class="elevation-1"
         >
@@ -38,7 +38,7 @@
                     v-bind="attrs"
                     v-on="on"
                     >
-                    New Item
+                    Adicionar Ativo
                     </v-btn>
                 </template>
                 <v-card>
@@ -55,8 +55,19 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.name"
-                            label="Dessert name"
+                            v-model="editedItem.date"
+                            label="Data"
+                            type="date"
+                            ></v-text-field>                            
+                        </v-col>
+                        <v-col
+                            cols="12"
+                            sm="6"
+                            md="4"
+                        >
+                            <v-text-field
+                            v-model="editedItem.tiker"
+                            label="Tiker"
                             ></v-text-field>
                         </v-col>
                         <v-col
@@ -65,8 +76,9 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.calories"
-                            label="Calories"
+                            v-model="editedItem.amount"
+                            label="Quantidade"
+                            type="number"
                             ></v-text-field>
                         </v-col>
                         <v-col
@@ -75,8 +87,10 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.fat"
-                            label="Fat (g)"
+                            v-model="editedItem.price"
+                            label="Preço"
+                            prefix="R$"
+                            type="number"
                             ></v-text-field>
                         </v-col>
                         <v-col
@@ -85,18 +99,8 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.carbs"
-                            label="Carbs (g)"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            md="4"
-                        >
-                            <v-text-field
-                            v-model="editedItem.protein"
-                            label="Protein (g)"
+                            v-model="editedItem.exchange"
+                            label="Corretora"
                             ></v-text-field>
                         </v-col>
                         </v-row>
@@ -110,21 +114,21 @@
                         text
                         @click="close"
                     >
-                        Cancel
+                        Cancelar
                     </v-btn>
                     <v-btn
                         color="blue darken-1"
                         text
                         @click="save"
                     >
-                        Save
+                        Salvar
                     </v-btn>
                     </v-card-actions>
                 </v-card>
                 </v-dialog>
                 <v-dialog v-model="dialogDelete" max-width="500px">
                 <v-card>
-                    <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+                    <v-card-title class="headline">Tem certeza que deseja deletar esse ativo?</v-card-title>
                     <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
@@ -172,18 +176,18 @@
       dialogDelete: false,
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Data',
           align: 'start',
           sortable: false,
-          value: 'name',
+          value: 'date',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'Ticker', value: 'ticker' },
+        { text: 'Quantidade', value: 'amount' },
+        { text: 'Preço', value: 'price' },
+        { text: 'Corretora', value: 'exchange' },
+        { text: 'Corretora', value: 'actions', sortable: false },
       ],
-      desserts: [],
+      assets: [],
       editedIndex: -1,
       editedItem: {
         name: '',
@@ -203,7 +207,7 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'Adicionar ativo' : 'Editar ativo'
       },
     },
 
@@ -222,94 +226,92 @@
 
     methods: {
       initialize () {
-        this.desserts = [
+        this.assets = [
           {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
+            date: new Date(),
+            ticker: 'ITSA4',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
           },
           {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
+            date: new Date(),
+            ticker: 'VT',
+            amount: 10,
+            price: 9.25,
+            exchange: 'Avenue',
+          },{
+            date: new Date(),
+            ticker: 'MGLU3',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'XPML11',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'KNRI11',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'XPLG11',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'VILG11',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'KNRI11',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'MGLU3',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'ITSA4',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
+          },{
+            date: new Date(),
+            ticker: 'BBDC',
+            amount: 10,
+            price: 9.25,
+            exchange: 'XP',
           },
         ]
       },
 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.assets.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.assets.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.desserts.splice(this.editedIndex, 1)
+        this.assets.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
@@ -331,9 +333,9 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          Object.assign(this.assets[this.editedIndex], this.editedItem)
         } else {
-          this.desserts.push(this.editedItem)
+          this.assets.push(this.editedItem)
         }
         this.close()
       },
