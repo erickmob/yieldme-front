@@ -71,7 +71,7 @@
 
     <!-- MAIN -->
     <v-main>
-      <v-container
+      <!-- <v-container
         class="py-8 px-6"
         fluid
       >
@@ -112,7 +112,8 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
+      </v-container> -->
+
     </v-main>
   </v-app>
 </template>
@@ -123,10 +124,10 @@
       cards: ['Today', 'Yesterday'],
       drawer: null,
       menus: [
-        ['mdi-desktop-mac-dashboard', 'Dashboard'],
-        ['mdi-align-vertical-bottom', 'Ativos'],
-        ['mdi-bullseye-arrow', 'Objetivo'],
-        ['mdi-alert-octagon', 'Updates'],
+        ['mdi-desktop-mac-dashboard', 'Dashboaaaaaard', '/'],
+        ['mdi-align-vertical-bottom', 'Carteira', '/myWallet'],
+        ['mdi-bullseye-arrow', 'Objetivo', '/targetWallet'],
+        ['mdi-alert-octagon', 'Updates', '/updates'],
       ],
     }),
   }
