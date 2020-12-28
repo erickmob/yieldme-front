@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card dark>
 
         <v-data-table
             :headers="headers"
@@ -66,7 +66,7 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.tiker"
+                            v-model="editedItem.ticker"
                             label="Tiker"
                             ></v-text-field>
                         </v-col>
