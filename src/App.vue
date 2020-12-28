@@ -6,6 +6,7 @@
       v-model="drawer"
       class="secondary"
       app
+      dark
     >
       <v-sheet
         color="secondary"
@@ -27,7 +28,7 @@
       <v-list dark class="">
         <v-list-item-group
           v-model="selectedItem"
-          color="primary"
+          
         >
           <v-list-item
             v-for="[icon, text, url] in menus"
