@@ -100,7 +100,7 @@
     data: () => ({ 
       drawer: null,
       menus: [
-        ['mdi-desktop-mac-dashboard', 'Dashbord', '/'],
+        ['mdi-desktop-mac-dashboard', 'Dashbord', '/yieldme-front'],
         ['mdi-align-vertical-bottom', 'Carteira', '/myWallet'],
         ['mdi-bullseye-arrow', 'Objetivo', '/targetWallet'],
         ['mdi-alert-octagon', 'Updates', '/updates'],
