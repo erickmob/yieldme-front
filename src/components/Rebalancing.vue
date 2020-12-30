@@ -1,10 +1,10 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="assets"
     item-key="name"
     sort-by="name"
-    group-by="category"
+    group-by="categoria"
     class="elevation-1"
     show-group-by
   ></v-data-table>
@@ -16,64 +16,82 @@
       return {
         headers: [
           {
-            text: 'Dessert (100g serving)',
+            text: 'Categoria',
             align: 'start',
-            value: 'name',
-            groupable: false,   
+            value: 'categoria',
+            groupable: true,   
           },
-          { text: 'Category', value: 'category', align: 'right' },
-          { text: 'Dairy', value: 'dairy', align: 'right' },
+          { text: 'Ativo', value: 'asset', align: 'right',groupable: false },
+          { text: 'Qtd', value: 'qtd', align: 'right',groupable: false },
+          { text: '% Falta p/ Objetivo', value: 'target', align: 'right',groupable: false },
         ],
-        desserts: [
+        assets: [
           {
-            name: 'Frozen Yogurt',
-            category: 'Ice cream',
-            dairy: 'Yes',
+            asset: 'ITSA4',
+            categoria: 'Ações BR',
+            qtd: '100',
+            target: '4%',
+          },
+          
+          {
+            asset: 'VT',
+            categoria: 'ETFs',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Ice cream sandwich',
-            category: 'Ice cream',
-            dairy: 'Yes',
+            asset: 'MGLU3',
+            categoria: 'Ações BR',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Eclair',
-            category: 'Cookie',
-            dairy: 'Yes',
+            asset: 'XPML11',
+            categoria: 'Fiis',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Cupcake',
-            category: 'Pastry',
-            dairy: 'Yes',
+            asset: 'KNRI11',
+            categoria: 'Fiis',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Gingerbread',
-            category: 'Cookie',
-            dairy: 'No',
+            asset: 'XPLG11',
+            categoria: 'Fiis',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Jelly bean',
-            category: 'Candy',
-            dairy: 'No',
+            asset: 'AMZN',
+            categoria: 'Stoks',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Lollipop',
-            category: 'Candy',
-            dairy: 'No',
+            asset: 'KNRI11',
+            categoria: 'Fiis',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Honeycomb',
-            category: 'Toffee',
-            dairy: 'No',
+            asset: 'MGLU3',
+            categoria: 'Ações BR',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'Donut',
-            category: 'Pastry',
-            dairy: 'Yes',
+            asset: 'AMZN',
+            categoria: 'Stocks',
+            qtd: '100',
+            target: '4%',
           },
           {
-            name: 'KitKat',
-            category: 'Candy',
-            dairy: 'Yes',
+            asset: 'ITSA4',
+            categoria: 'Ações BR',
+            qtd: '100',
+            target: '4%',
           },
         ],
       }
