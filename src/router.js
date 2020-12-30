@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Dashboard from './components/Dashboard'
 import MyWallet from './components/MyWallet'
 import TargetWallet from './components/TargetWallet'
-import Updates from './components/Updates' 
+import Rebalancing from './components/Rebalancing' 
 
 Vue.use(Router)
 
@@ -14,6 +14,6 @@ export default new Router({
         { path: '/yieldme-front', component:Dashboard},
         { path: '/myWallet', component:MyWallet},
         { path: '/targetWallet', component:TargetWallet},
-        { path: '/updates', component:Updates},
+        { path: '/rebalancing', component:Rebalancing},
     ]
 })

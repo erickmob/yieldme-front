@@ -63,7 +63,7 @@
           },
             
     })
-    }
+  }
 </script>
 
 <style scoped>
