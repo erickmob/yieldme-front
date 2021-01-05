@@ -101,6 +101,7 @@
             pm: 47.90,
             qtd: 8.0482,
             currentPrice: null,
+            valuation: null,
           },
           {
             name: 'IQLT',
@@ -144,16 +145,8 @@
         axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
         .then(response => element.currentPrice = response.data.last);
       });
-      // Simple GET request using axios
-      // axios.get("https://api.npms.io/v2/search?q=vue")
-      //   .then(response => this.totalVuePackages = response.data.total);
     },
     mounted(){
-      // console.log("aaaa");
-
-      // this.avenueAssets.forEach(element => {
-      //   console.log(element.name);
-      // });
       
     }
     

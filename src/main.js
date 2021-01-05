@@ -4,10 +4,20 @@ import vuetify from './plugins/vuetify';
 import router from './router'
 import '@/plugins/apexcharts'
 
+import store from './store'
+import Axios from 'axios'
+
+Vue.prototype.$http = Axios;
+const token = localStorage.getItem('user-token')
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
+
 Vue.config.productionTip = false
 
 new Vue({
   router,
   vuetify,
+  store,
   render: h => h(App)
 }).$mount('#app')

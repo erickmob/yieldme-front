@@ -6,8 +6,6 @@
     <v-subheader>Ações BR</v-subheader>
     <v-card-text class="pt-0">
       <v-slider
-        v-model="value"
-        :rules="rules"
         label="Qual % ?"
         thumb-label="always"
         min="0"
@@ -19,8 +17,6 @@
     <v-subheader>Fiis</v-subheader>
     <v-card-text class="pt-0">
       <v-slider
-        v-model="value"
-        :rules="rules"
         label="Qual % ?"
         thumb-label="always"
         min="0"
@@ -31,8 +27,6 @@
     <v-subheader>BDRs</v-subheader>
     <v-card-text class="pt-0">
       <v-slider
-        v-model="value"
-        :rules="rules"
         label="Qual % ?"
         thumb-label="always"
         min="0"
@@ -43,8 +37,6 @@
     <v-subheader>Stocks</v-subheader>
     <v-card-text class="pt-0">
       <v-slider
-        v-model="value"
-        :rules="rules"
         label="Qual % ?"
         thumb-label="always"
         min="0"
@@ -55,8 +47,6 @@
     <v-subheader>ETFs</v-subheader>
     <v-card-text class="pt-0">
       <v-slider
-        v-model="value"
-        :rules="rules"
         label="Qual % ?"
         thumb-label="always"
         min="0"
@@ -68,8 +58,6 @@
     <v-subheader>Cryptos</v-subheader>
     <v-card-text class="pt-0">
       <v-slider
-        v-model="value"
-        :rules="rules"
         label="Qual % ?"
         thumb-label="always"
         min="0"
@@ -79,12 +67,11 @@
 
     <v-btn color="primary"
         class="mr-4"
-        @click="submit"
         >
         submit
     </v-btn>
     
-    <v-btn color="gray" @click="clear">
+    <v-btn color="gray" >
         clear
     </v-btn>
 
