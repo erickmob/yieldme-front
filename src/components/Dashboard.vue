@@ -34,6 +34,37 @@
                 </div>
               </div>
             </div>
+            <v-simple-table dark>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">
+                        Ticker
+                      </th>
+                      <th class="text-left">
+                        PM
+                      </th>
+                      <th class="text-left">
+                        Qtd
+                      </th>
+                      <th class="text-left">
+                        Preço Atual
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="item in avenueAssets"
+                      :key="item.name"
+                    >
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.pm }}</td>
+                      <td>{{ item.qtd }}</td>
+                      <td>{{ item.currentPrice }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
 
           </div>
         </div>
@@ -61,6 +92,44 @@
               }
             }]
           },
+          avenueAssets: [
+          {
+            name: 'EMGF',
+            pm: 47.90,
+            qtd: 8.0482,
+            currentPrice: null,
+          },
+          {
+            name: 'IQLT',
+            pm: 35.08,
+            qtd: 10.9838,
+            currentPrice: null,
+          },
+          {
+            name: 'SPHQ',
+            pm: 41.21,
+            qtd: 19.1679,
+            currentPrice: null,
+          },
+          {
+            name: 'VT',
+            pm: 88.60,
+            qtd: 17.824,
+            currentPrice: null,
+          },
+          {
+            name: 'AMZN',
+            pm: 3237.46,
+            qtd: 0.0307,
+            currentPrice: null,
+          },
+          {
+            name: 'TSLA',
+            pm: 621.46,
+            qtd: 0.3722,
+            currentPrice: null,
+          }
+        ]
             
     })
   }

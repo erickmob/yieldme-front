@@ -101,7 +101,8 @@
       drawer: null,
       menus: [
         ['mdi-desktop-mac-dashboard', 'Dashbord', '/yieldme-front'],
-        ['mdi-align-vertical-bottom', 'Carteira', '/myWallet'],
+        ['mdi-align-vertical-bottom', 'Ativos', '/myWallet'],
+        // ['mdi-cash-multiple', 'Aportes', '/contribution'],
         ['mdi-bullseye-arrow', 'Objetivo', '/targetWallet'],
         ['mdi-alert-octagon', 'Rebalancing', '/rebalancing'],
       ],
