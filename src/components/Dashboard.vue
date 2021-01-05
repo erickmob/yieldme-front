@@ -72,27 +72,30 @@
     </div>
 </template>
 <script>  
+    import axios from 'axios';
     export default {
-    data: () => ({
-    
-          series: [44, 55, 41, 17, 15],
-          chartOptions: {
-            chart: {
-              type: 'donut',
-            },
-            responsive: [{
-              breakpoint: 480,
-              options: {
-                chart: {
-                  width: 200
-                },
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }]
+    name: "get-request",
+    data() {
+      return {
+        totalVuePackages: null,
+        series: [44, 55, 41, 17, 15],
+        chartOptions: {
+          chart: {
+            type: 'donut',
           },
-          avenueAssets: [
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }]
+        },
+        avenueAssets: [
           {
             name: 'EMGF',
             pm: 47.90,
@@ -130,8 +133,30 @@
             currentPrice: null,
           }
         ]
-            
-    })
+      };
+    },
+    
+
+    created() {
+      console.log("created");
+      this.avenueAssets.forEach(element => {
+        console.log(element.name);
+        axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
+        .then(response => element.currentPrice = response.data.last);
+      });
+      // Simple GET request using axios
+      // axios.get("https://api.npms.io/v2/search?q=vue")
+      //   .then(response => this.totalVuePackages = response.data.total);
+    },
+    mounted(){
+      // console.log("aaaa");
+
+      // this.avenueAssets.forEach(element => {
+      //   console.log(element.name);
+      // });
+      
+    }
+    
   }
 </script>
 
