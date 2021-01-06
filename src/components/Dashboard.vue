@@ -147,7 +147,7 @@
       });
     },
     mounted(){
-      console.log(`Working on '${process.env.VUE_APP_MODE}' mode `)
+      console.log(`Working on '${process.env.VUE_APP_MODE}' mode! `)
     }
     
   }
