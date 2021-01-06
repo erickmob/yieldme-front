@@ -33,8 +33,10 @@ export default new Vuex.Store({
                 commit('auth_request')
                 axios({url: 'http://localhost:8080/users/signin?password='+user.password+'&username='+user.username+'', data: user, method: 'POST' })
                 .then(resp => {
-                    const token = resp.data.token
-                    const user = resp.data.user
+                    // const token = resp.data.token
+                    // const user = resp.data.user
+                    const token = resp.data
+                    const user = resp.data
                     localStorage.setItem('token', token)
                     // Add the following line:
                     axios.defaults.headers.common['Authorization'] = token
@@ -71,10 +73,10 @@ export default new Vuex.Store({
           logout({commit}){
             return new Promise((resolve, reject) => {
                 console.log(reject)
-                  commit('logout')
-                  localStorage.removeItem('token')
-                  delete axios.defaults.headers.common['Authorization']
-                  resolve()
+                commit('logout')
+                localStorage.removeItem('token')
+                delete axios.defaults.headers.common['Authorization']
+                resolve()
             })
           }
     },

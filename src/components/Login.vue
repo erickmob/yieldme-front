@@ -17,10 +17,10 @@
                     >
                         <div class="d-flex flex-column justify-space-between align-center pt-5">
                             <v-img
-                            lazy-src="https://assets.stickpng.com/images/580b57fbd9996e24bc43bbae.png"
+                            lazy-src="./../assets/bull.png"
                             max-height="150"
                             max-width="250"
-                            src="https://assets.stickpng.com/images/580b57fbd9996e24bc43bbae.png"
+                            src="./../assets/bull.png"
                             ></v-img>
                         </div>
                         <div class="d-flex flex-column justify-space-between align-center pt-10">
@@ -33,10 +33,6 @@
                                     :rules="rules"
                                     hide-details="auto" >
                                 </v-text-field>
-                                <!-- <label>Email</label>
-                                <input required v-model="email" type="text" placeholder="Email"/> -->
-                                <!-- <label>Password</label>
-                                <input required v-model="password" type="password" placeholder="Password"/> -->
 
                                 <v-text-field 
                                     label="Password" 
@@ -46,7 +42,6 @@
                                     hide-details="auto" >
                                 </v-text-field>
                                 
-                                <!-- <button type="submit">Login</button> -->
                                 <v-btn
                                     color="info"
                                     class="mr-4 mt-5"
@@ -99,7 +94,9 @@
                let username = this.username 
                let password = this.password
                this.$store.dispatch('login', { username, password })
-               .then(() => this.$router.push('/'))
+               .then(() => {
+                    this.$router.push('/')
+                })
                .catch(err => console.log(err), this.snackbar=true )
             }
       }

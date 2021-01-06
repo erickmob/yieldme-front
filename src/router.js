@@ -16,7 +16,7 @@ let router = new Router({
   routes: [
     { path: '/login', component: Login},
     { path: '/register', component: Register},
-    { path: '/yieldme-front', component:Dashboard, meta: {requiresAuth: true}},
+    { path: '/', component:Dashboard, meta: {requiresAuth: true}},
     { path: '/contribution', component:Contribution, meta: {requiresAuth: true}},
     { path: '/targetWallet', component:TargetWallet, meta: {requiresAuth: true}},
     { path: '/rebalancing', component:Rebalancing, meta: {requiresAuth: true}},
@@ -29,9 +29,9 @@ router.beforeEach((to, from, next) => {
       next()
       return
     }
-    next('/login') 
+    next('/login')
   } else {
-    next() 
+    next()
   }
 })
 

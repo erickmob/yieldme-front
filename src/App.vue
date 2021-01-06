@@ -130,7 +130,7 @@
     data: () => ({ 
       drawer: null,
       menus: [
-        ['mdi-desktop-mac-dashboard', 'Dashbord', '/yieldme-front'],
+        ['mdi-desktop-mac-dashboard', 'Dashbord', '/'],
         ['mdi-cash-multiple', 'Aportes', '/contribution'],
         ['mdi-bullseye-arrow', 'Objetivo', '/targetWallet'],
         ['mdi-alert-octagon', 'Rebalancing', '/rebalancing'],
