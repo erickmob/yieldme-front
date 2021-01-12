@@ -77,7 +77,7 @@
                             <v-date-picker
                               v-model="date"
                               no-title
-                              @input="menu1 = false"
+                              @input="editedItem.date = false"
                             ></v-date-picker>
                           </v-menu>                 
                         </v-col>
@@ -87,7 +87,7 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.ticker"
+                            v-model="editedItem.assetId"
                             label="Tiker"
                             ></v-text-field>
                         </v-col>
@@ -108,7 +108,7 @@
                             md="4"
                         >
                             <v-text-field
-                            v-model="editedItem.price"
+                            v-model="editedItem.unitPrice"
                             label="Preço"
                             prefix="R$"
                             type="number"
@@ -191,6 +191,7 @@
   
 </template>
 <script>
+  import api from '../Api';
   export default {
     data: vm => ({
       menu1: null,
@@ -205,29 +206,43 @@
           sortable: false,
           value: 'date',
         },
-        { text: 'Ticker', value: 'ticker' },
+        { text: 'Ticker', value: 'asset.ticker' },
         { text: 'Quantidade', value: 'amount' },
-        { text: 'Preço', value: 'price' },
+        { text: 'Preço', value: 'unitPrice' },
         { text: 'Corretora', value: 'exchange' },
-        { text: 'Corretora', value: 'actions', sortable: false },
+        { text: 'Ações', value: 'actions', sortable: false },
       ],
       assets: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        amount: 0.00,
+        assetId: '',
+        date: new Date(),
+        exchange: 0,
+        totalPricePrice: 0,
+        unitPrice: 0
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        amount: 0.00,
+        assetId: '',
+        date: new Date(),
+        exchange: 0,
+        totalPricePrice: 0,
+        unitPrice: 0
       },
     }),
+    mounted() {
+      api.getAll()
+        .then(response => {
+          console.log("Data loaded: ", response.data)
+          this.assets = response.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.error = "Failed to load todos"
+        })
+        .finally(() => this.loading = false)
+    },
 
     computed: {
       formTitle () {
@@ -257,74 +272,7 @@
     methods: {
       initialize () {
         this.assets = [
-          {
-            date: new Date().toLocaleDateString(),
-            ticker: 'ITSA4',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },
-          {
-            date: new Date().toLocaleDateString(),
-            ticker: 'VT',
-            amount: 10,
-            price: 9.25,
-            exchange: 'Avenue',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'MGLU3',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'XPML11',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'KNRI11',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'XPLG11',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'VILG11',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'KNRI11',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'MGLU3',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'ITSA4',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },{
-            date: new Date().toLocaleDateString(),
-            ticker: 'BBDC',
-            amount: 10,
-            price: 9.25,
-            exchange: 'XP',
-          },
+          
         ]
       },
 
@@ -365,6 +313,14 @@
         if (this.editedIndex > -1) {
           Object.assign(this.assets[this.editedIndex], this.editedItem)
         } else {
+          api.createNew(this.editedItem).then( (response) => {  
+          console.log("New item created:", response);  
+          this.editedItem.date = this.formatDate(this.editedItem.date)
+          this.assets.push(this.editedItem)
+        }).catch((error) => {  
+          console.log(error);  
+          this.error = "Failed to add todo"  
+        });  
           this.assets.push(this.editedItem)
         }
         this.close()

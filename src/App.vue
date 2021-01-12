@@ -21,7 +21,7 @@
             <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
           </v-avatar>
 
-          <div><span class="text--lighten-1">john@vuetifyjs.com</span></div>
+          <div><span class="text--lighten-1">useranme</span></div>
         </v-sheet>
 
         <!-- <v-divider></v-divider> -->

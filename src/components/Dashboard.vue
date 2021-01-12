@@ -8,28 +8,28 @@
               <div class="col-md-3">
                 <div class="box shadow mt-4">
                   <div id="chart">
-                      <apexchart width="350" type="donut" :options="chartOptions" :series="series"></apexchart>
+                      <apexchart width="300" type="donut" :options="chartOptions" :series="series"></apexchart>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="box shadow mt-4">
                   <div id="chart">
-                      <apexchart width="350" type="donut" :options="chartOptions" :series="series"></apexchart>
+                      <apexchart width="300" type="donut" :options="chartOptions" :series="series"></apexchart>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="box shadow mt-4">
                   <div id="chart">
-                      <apexchart width="350" type="donut" :options="chartOptions" :series="series"></apexchart>
+                      <apexchart width="300" type="donut" :options="chartOptions" :series="series"></apexchart>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="box shadow mt-4">
                   <div id="chart">
-                      <apexchart width="350" type="donut" :options="chartOptions" :series="series"></apexchart>
+                      <apexchart width="300" type="donut" :options="chartOptions" :series="series"></apexchart>
                   </div>
                 </div>
               </div>
@@ -150,11 +150,14 @@
           }]
         },
 
+        dolar: null,
+
         headers: [
           { text: 'Ticker', value: 'name' },
           { text: 'PM', value: 'pm' },
-          { text: 'QTD', value: 'qtd2' },
+          // { text: 'QTD', value: 'qtd2' },
           { text: 'Valor Atual', value: 'currentPrice' },
+          { text: 'Valorização', value: 'valuation' },
         ],
         acoesBrAssets: [
           {
@@ -294,6 +297,7 @@
             pm: 2.20,
             qtd: null,
             currentPrice: null,
+            valuation: null,
           }
         ]
       };
@@ -302,33 +306,52 @@
 
     created() {
     },
+
     mounted(){
       console.log(`Working on '${process.env.VUE_APP_MODE}' mode! `);
 
+      this.getDolarValue();
+
       this.acoesBrAssets.forEach(element => {
         axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
-        .then(response => element.currentPrice = response.data.last);
+        .then(response => this.updateTicker(response.data.last, element, false));
       });
 
       this.fiisAssets.forEach(element => {
         axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
-        .then(response => element.currentPrice = response.data.last);
+        .then(response => this.updateTicker(response.data.last, element, false));
       });
 
       this.etfAssets.forEach(element => {
         axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
-        .then(response => element.currentPrice = response.data.last);
+        .then(response => this.updateTicker(response.data.last, element, true));
       });
 
       this.stocksAssets.forEach(element => {
         axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
-        .then(response => element.currentPrice = response.data.last);
+        .then(response => this.updateTicker(response.data.last, element, true));
       });
 
       this.cryptoAssets.forEach(element => {
         axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker="+element.name)
-        .then(response => element.currentPrice = response.data.last);
+        .then(response => this.updateTicker(response.data.last, element, true));
       });
+    },
+
+    methods: {
+      
+      getDolarValue(){
+        axios.get("https://yfinance-api.herokuapp.com/api/v1/resources/ticker?ticker=USDBRL=X")
+        .then(response => this.dolar = parseFloat(response.data.last).toFixed(2));
+      },
+
+      updateTicker(last, element, convertDollar){
+        element.currentPrice = parseFloat(last).toFixed(2);
+        if(convertDollar == true){
+          element.currentPrice = element.currentPrice * this.dolar;
+        }
+        element.valuation = parseFloat(((element.currentPrice / element.pm) -1)*100).toFixed(2);
+      },
     }
     
   }
