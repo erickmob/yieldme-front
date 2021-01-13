@@ -86,10 +86,20 @@
                             sm="6"
                             md="4"
                         >
-                            <v-text-field
+                          <v-autocomplete
                             v-model="editedItem.assetId"
-                            label="Tiker"
-                            ></v-text-field>
+                            :items="items"
+                            :loading="isLoading"
+                            :search-input.sync="search"
+                            color="white"
+                            hide-no-data
+                            hide-selected
+                            item-text="Description"
+                            item-value="API"
+                            label="Ticker"
+                            placeholder="Start typing to Search"
+                            return-object
+                          ></v-autocomplete>
                         </v-col>
                         <v-col
                             cols="12"
@@ -125,7 +135,7 @@
                             ></v-text-field>
                         </v-col>
                         </v-row>
-                    </v-container>
+                      </v-container>
                     </v-card-text>
 
                     <v-card-actions>
@@ -230,9 +240,14 @@
         totalPricePrice: 0,
         unitPrice: 0
       },
+      descriptionLimit: 60,
+      entries: [],
+      isLoading: false,
+      model: null,
+      search: null,
     }),
     mounted() {
-      api.getAll()
+      api.getAllContributions()
         .then(response => {
           console.log("Data loaded: ", response.data)
           this.assets = response.data
@@ -251,6 +266,25 @@
       computedDateFormatted () {
         return this.formatDate(this.date)
       },
+      fields () {
+        if (!this.model) return []
+
+        return Object.keys(this.model).map(key => {
+          return {
+            key,
+            value: this.model[key] || 'n/a',
+          }
+        })
+      },
+      items () {
+        return this.entries.map(entry => {
+          const Description = entry.ticker.length > this.descriptionLimit
+            ? entry.ticker.slice(0, this.descriptionLimit) + '...'
+            : entry.ticker
+
+          return Object.assign({}, entry, { Description })
+        })
+      },      
     },
 
     watch: {
@@ -263,6 +297,29 @@
       date () {
         this.dateFormatted = this.formatDate(this.date)
       },
+      search (val) {
+        console.log(val)
+
+        if(val.length<2){
+          return
+        }
+        // Items have already been loaded
+        // if (this.items.length > 0) return
+
+        // Items have already been requested
+        if (this.isLoading) return
+
+        this.isLoading = true
+
+        // Lazily load input items
+        api.getAllAssets(this.editedItem).then( (response) => {  
+          // console.log("New item created:", response);  
+          this.entries = response.data
+        }).catch((error) => {  
+          console.log(error);  
+          this.error = "Failed to add todo"  
+        });  
+      },      
     },
 
     created () {
@@ -313,15 +370,15 @@
         if (this.editedIndex > -1) {
           Object.assign(this.assets[this.editedIndex], this.editedItem)
         } else {
-          api.createNew(this.editedItem).then( (response) => {  
-          console.log("New item created:", response);  
-          this.editedItem.date = this.formatDate(this.editedItem.date)
-          this.assets.push(this.editedItem)
-        }).catch((error) => {  
-          console.log(error);  
-          this.error = "Failed to add todo"  
-        });  
-          this.assets.push(this.editedItem)
+          api.createNewContribution(this.editedItem).then( (response) => {  
+            console.log("New item created:", response);  
+            this.editedItem.date = this.formatDate(this.editedItem.date)
+            this.assets.push(this.editedItem)
+          }).catch((error) => {  
+            console.log(error);  
+            this.error = "Failed to add todo"  
+          });  
+            this.assets.push(this.editedItem)
         }
         this.close()
       },

@@ -22,12 +22,12 @@ export default {
     })  
   },  
   
-  // (C)reate  
-  createNew(contribution) {  
+  
+  createNewContribution(contribution) {  
     return this.execute('POST', 'contributions/', contribution)  
   },  
-  // (R)ead  
-  getAll() {  
+  
+  getAllContributions() {  
     return this.execute('GET','contributions/', null, {  
       transformResponse: [function (data) {  
           console.log(data)
@@ -35,13 +35,14 @@ export default {
       }]  
     })  
   },  
-  // (U)pdate  
-  updateForId(id, text, completed) {  
-    return this.execute('PUT', 'todos/' + id, { title: text, completed: completed })  
+  
+  getAllAssets() {  
+    return this.execute('GET','assets/', null, {  
+      transformResponse: [function (data) {  
+          console.log(data)
+        return data? JSON.parse(data) : data;  
+      }]  
+    })  
   },  
   
-  // (D)elete  
-  removeForId(id) {  
-    return this.execute('DELETE', 'todos/'+id)  
-  }  
 }
