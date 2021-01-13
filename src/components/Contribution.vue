@@ -3,7 +3,7 @@
 
         <v-data-table
             :headers="headers"
-            :items="assets"
+            :items="contributions"
             sort-by="calories"
             class="elevation-1"
         >
@@ -87,7 +87,7 @@
                             md="4"
                         >
                           <v-autocomplete
-                            v-model="editedItem.assetId"
+                            v-model="editedItem.asset"
                             :items="items"
                             :loading="isLoading"
                             :search-input.sync="search"
@@ -204,6 +204,7 @@
   import api from '../Api';
   export default {
     data: vm => ({
+      awaitingSearch: false,
       menu1: null,
       date: new Date().toISOString().substr(0, 10),
       dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
@@ -222,11 +223,11 @@
         { text: 'Corretora', value: 'exchange' },
         { text: 'Ações', value: 'actions', sortable: false },
       ],
-      assets: [],
+      contributions: [],
       editedIndex: -1,
       editedItem: {
         amount: 0.00,
-        assetId: '',
+        asset: {},
         date: new Date(),
         exchange: 0,
         totalPricePrice: 0,
@@ -234,7 +235,7 @@
       },
       defaultItem: {
         amount: 0.00,
-        assetId: '',
+        asset: {},
         date: new Date(),
         exchange: 0,
         totalPricePrice: 0,
@@ -250,7 +251,7 @@
       api.getAllContributions()
         .then(response => {
           console.log("Data loaded: ", response.data)
-          this.assets = response.data
+          this.contributions = response.data
         })
         .catch(error => {
           console.log(error)
@@ -298,27 +299,23 @@
         this.dateFormatted = this.formatDate(this.date)
       },
       search (val) {
-        console.log(val)
-
-        if(val.length<2){
-          return
+      
+        console.log("val:"+val)
+        if (!this.awaitingSearch) {
+          setTimeout(() => {
+          // Lazily load input items
+          api.getAllAssets(this.search).then( (response) => {  
+            this.entries = response.data
+          }).catch((error) => {  
+            console.log(error);  
+            this.error = "Failed to load assets"  
+          });              
+            
+            this.awaitingSearch = false;
+          }, 2000); // 2 sec delay
         }
-        // Items have already been loaded
-        // if (this.items.length > 0) return
+        this.awaitingSearch = true;
 
-        // Items have already been requested
-        if (this.isLoading) return
-
-        this.isLoading = true
-
-        // Lazily load input items
-        api.getAllAssets(this.editedItem).then( (response) => {  
-          // console.log("New item created:", response);  
-          this.entries = response.data
-        }).catch((error) => {  
-          console.log(error);  
-          this.error = "Failed to add todo"  
-        });  
       },      
     },
 
@@ -328,25 +325,29 @@
 
     methods: {
       initialize () {
-        this.assets = [
+        this.contributions = [
           
         ]
       },
 
       editItem (item) {
-        this.editedIndex = this.assets.indexOf(item)
+        this.editedIndex = this.contributions.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        console.log(this.editedItem)
+
+        this.entries = [this.editedItem.asset]
+        this.search = "this.editedItem.asset.ticker"
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.assets.indexOf(item)
+        this.editedIndex = this.contributions.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.assets.splice(this.editedIndex, 1)
+        this.contributions.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
@@ -368,17 +369,17 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.assets[this.editedIndex], this.editedItem)
+          Object.assign(this.contributions[this.editedIndex], this.editedItem)
         } else {
           api.createNewContribution(this.editedItem).then( (response) => {  
             console.log("New item created:", response);  
             this.editedItem.date = this.formatDate(this.editedItem.date)
-            this.assets.push(this.editedItem)
+            this.contributions.push(this.editedItem)
           }).catch((error) => {  
             console.log(error);  
             this.error = "Failed to add todo"  
           });  
-            this.assets.push(this.editedItem)
+            this.contributions.push(this.editedItem)
         }
         this.close()
       },

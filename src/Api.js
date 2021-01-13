@@ -36,8 +36,11 @@ export default {
     })  
   },  
   
-  getAllAssets() {  
-    return this.execute('GET','assets/', null, {  
+  getAllAssets(val) {
+    console.log("---")
+    console.log(val)  
+    console.log("---")
+    return this.execute('GET','assets?query='+val, null, {  
       transformResponse: [function (data) {  
           console.log(data)
         return data? JSON.parse(data) : data;  
